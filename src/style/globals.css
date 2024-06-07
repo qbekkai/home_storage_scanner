@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+#interactive > video {
+  /* border-radius: 0.75rem; */
+  /* overflow: hidden;
+  height: 100%; */
+
+}
+
+#interactive>canvas {
+  display: none;
+}
