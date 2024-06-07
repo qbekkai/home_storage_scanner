@@ -10,8 +10,24 @@ export const ScannerContextProvider = ({ children }: any) => {
 	const [things, setThings] = useState<'item' | 'container' | null>(null);
 	const [itemCode, setItemCode] = useState<string | null>(null);
 	const [containerCode, setContainerCode] = useState<string | null>(null);
+	const [deviceId, setDeviceId] = useState<string>('');
 
 	const initQuagga = ({ height, width }: any) => {
+		if (!navigator.mediaDevices?.enumerateDevices) {
+			console.log('enumerateDevices() not supported.');
+		} else {
+			// List cameras and microphones.
+			navigator.mediaDevices
+				.enumerateDevices()
+				.then((devices) => {
+					devices.forEach((device) => {
+						if (!!device.deviceId) setDeviceId(device.deviceId);
+					});
+				})
+				.catch((err) => {
+					console.error(`${err.name}: ${err.message}`);
+				});
+		}
 		Quagga.init(
 			{
 				frequency: 1,
@@ -21,8 +37,8 @@ export const ScannerContextProvider = ({ children }: any) => {
 						width: height,
 						height: width,
 						facingMode: 'environment',
-						deviceId:
-							'1d74b6b4022c4dc6c23b2b6d42c54dff6be66edb88ff2406007b9fe47934403d',
+						deviceId,
+						// '1d74b6b4022c4dc6c23b2b6d42c54dff6be66edb88ff2406007b9fe47934403d',
 					},
 				},
 				locator: {
@@ -47,9 +63,9 @@ export const ScannerContextProvider = ({ children }: any) => {
 				decoder: {
 					readers: [
 						'code_128_reader',
-						'ean_reader',
-						'ean_8_reader',
-						'codabar_reader',
+						// 'ean_reader',
+						// 'ean_8_reader',
+						// 'codabar_reader',
 					],
 					debug: {
 						drawBoundingBox: true,
