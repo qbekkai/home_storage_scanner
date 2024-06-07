@@ -72,13 +72,13 @@ export default class NotionService {
 		value: string | null,
 		options?: any,
 	): Promise<string> {
-		const [page, ...rest] = await NotionService.queryingPageFromDatabase(
+		const page = await NotionService.queryingPageFromDatabase(
 			property,
 			value,
 			options,
 		);
 
-		return page.id;
+		return page.results[0].id;
 	}
 
 	public static async movePage(
