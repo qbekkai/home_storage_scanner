@@ -1,6 +1,16 @@
 'use client';
 import ScannerContext from '@/contexts/scanner.context';
 import { useState, useContext } from 'react';
+import {
+	EllipsisVertical,
+	Eraser,
+	Eye,
+	Move,
+	Plus,
+	Trash,
+	Trash2,
+	X,
+} from 'lucide-react';
 
 export default function ModeSelector({ setMode }: any) {
 	const { clearCode } = useContext(ScannerContext);
@@ -47,59 +57,59 @@ export default function ModeSelector({ setMode }: any) {
 			}}
 		>
 			<p
-				className={`text-5xl absolute inset-0 text-center leading-none font-bold rotate-90 ${
+				className={`text-5xl absolute inset-0 text-center leading-none font-bold flex justify-center items-center ${
 					!isOpen ? '' : 'hidden'
 				}`}
 			>
-				...
+				<EllipsisVertical size={52} />
 			</p>
 			<p
-				className={`text-5xl absolute inset-0 text-center leading-normal font-bold ${
+				className={`text-5xl absolute inset-0 text-center leading-normal font-bold flex justify-center items-center ${
 					isOpen ? '' : 'hidden'
 				}`}
 			>
-				x
+				<X size={52} />
 			</p>
 			<button
 				onClick={() => {
 					changeMode('read');
 				}}
-				className={`aspect-square absolute w-14 overflow-hidden rounded-full bg-slate-800 ${readPos} ${
+				className={`aspect-square absolute w-14 overflow-hidden rounded-full bg-slate-800 flex justify-center items-center ${readPos} ${
 					isOpen ? '' : 'hidden'
 				}`}
 			>
-				Read
+				<Eye size={32} />
 			</button>
 			<button
 				onClick={() => {
 					changeMode('add');
 				}}
-				className={`aspect-square absolute w-14 overflow-hidden rounded-full bg-slate-800 ${addPos} ${
+				className={`aspect-square absolute w-14 overflow-hidden rounded-full bg-slate-800 flex justify-center items-center ${addPos} ${
 					isOpen ? '' : 'hidden'
 				}`}
 			>
-				Add
+				<Plus size={32} />
 			</button>
 			<button
 				onClick={() => {
 					changeMode('modify');
 				}}
-				className={`aspect-square absolute w-14 overflow-hidden rounded-full bg-slate-800 ${modifyPos} ${
+				className={`aspect-square absolute w-14 overflow-hidden rounded-full bg-slate-800 flex justify-center items-center ${modifyPos} ${
 					isOpen ? '' : 'hidden'
 				}`}
 			>
-				Modif
+				<Move size={32} />
 			</button>
 			<button
 				disabled
 				onClick={() => {
 					changeMode('delete');
 				}}
-				className={`aspect-square absolute w-14 overflow-hidden rounded-full bg-slate-800 disabled:text-neutral-400 disabled:bg-neutral-800 ${deletePos} ${
+				className={`aspect-square absolute w-14 overflow-hidden rounded-full bg-red-800 disabled:text-neutral-400 disabled:bg-neutral-800 flex justify-center items-center ${deletePos} ${
 					isOpen ? '' : 'hidden'
 				}`}
 			>
-				Del
+				<Trash2 size={32} />
 			</button>
 		</div>
 	);
