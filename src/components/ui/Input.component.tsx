@@ -1,6 +1,7 @@
 'use client';
 import { useContext } from 'react';
 import ScannerContext from '@/contexts/scanner.context';
+import { ScanBarcode } from 'lucide-react';
 
 export default function Input({ what, code }: any) {
 	const { things, isOnScanningMode, toggleOnScanning } =
@@ -22,9 +23,7 @@ export default function Input({ what, code }: any) {
 						: ''
 				}`}
 			>
-				|<span className="font-normal">|</span>|
-				<span className="font-normal">|</span>
-				<span className="font-normal">|</span>|
+				<ScanBarcode height={'100%'} />
 				<input
 					id={`activeScan${what[0].toUpperCase()}`}
 					type="checkbox"
