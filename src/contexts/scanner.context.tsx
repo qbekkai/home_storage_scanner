@@ -63,7 +63,7 @@ export const ScannerContextProvider = ({ children }: any) => {
 				decoder: {
 					readers: [
 						'code_128_reader',
-						// 'ean_reader',
+						'ean_reader',
 						// 'ean_8_reader',
 						// 'codabar_reader',
 					],
