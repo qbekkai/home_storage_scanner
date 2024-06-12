@@ -3,9 +3,11 @@ import React, { useContext } from 'react';
 import ToggleCard from './ui/ToggleCard.component';
 import InputComponent from './ui/Input.component';
 import ScannerContext from '@/contexts/scanner.context';
+import { useToast } from '@/contexts/toast.context';
 
 export default function AddContainer() {
 	const { itemCode } = useContext(ScannerContext);
+	const { pushToast } = useToast();
 	const [isAdded, setIsAdded] = React.useState<boolean | null>(null);
 
 	const addItems = async (code: string) => {
@@ -22,10 +24,28 @@ export default function AddContainer() {
 				}),
 			});
 
-			if (response && response.status === 201) setIsAdded(true);
-			else setIsAdded(false);
+			if (response && response.status === 201) {
+				setIsAdded(true);
+				pushToast({
+					title: 'Reference ajoutée',
+					content: 'La reference ${} est bien ajouté',
+					type: 'success',
+				});
+			} else {
+				setIsAdded(false);
+				pushToast({
+					title: 'Erreur',
+					content: "La reference ${} n'a pas été ajouté",
+					type: 'danger',
+				});
+			}
 		} catch (err) {
 			setIsAdded(false);
+			pushToast({
+				title: 'Erreur',
+				content: "La reference ${} n'a pas été ajouté",
+				type: 'danger',
+			});
 		}
 	};
 
