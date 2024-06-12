@@ -120,10 +120,13 @@ export const ScannerContextProvider = ({ children }: any) => {
 		) {
 			initQuagga({ height: h, width: w });
 		}
+	}, []);
 
+	useEffect(() => {
 		if (isOnScanningMode) startQuagga();
 		else stopQuagga();
-	});
+	}, [isOnScanningMode]);
+
 	return (
 		<ScannerContext.Provider
 			value={{
