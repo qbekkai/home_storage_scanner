@@ -95,17 +95,21 @@ export const ScannerContextProvider = ({ children }: any) => {
 	};
 	const _onDetected = (result: any) => {
 		stopQuagga();
-		console.log('barCode', result.codeResult.code);
 		if (things === 'item') setItemCode(result.codeResult.code);
 		if (things === 'container') setContainerCode(result.codeResult.code);
 	};
 
-	const clearCode = () => {
-		setItemCode(null);
-		setContainerCode(null);
+	const clearCode = (what?: 'item' | 'container'): void => {
+		if (what === 'item') setItemCode(null);
+		else if (what === 'container') setContainerCode(null);
+		else {
+			setItemCode(null);
+			setContainerCode(null);
+		}
 	};
 
 	const toggleOnScanning = (what: 'item' | 'container') => {
+		clearCode(what);
 		setIsOnScanningMode(!isOnScanningMode);
 		setThings(what);
 	};

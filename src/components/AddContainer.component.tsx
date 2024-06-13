@@ -1,19 +1,19 @@
 'use client';
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import ToggleCard from './ui/ToggleCard.component';
 import InputComponent from './ui/Input.component';
 import ScannerContext from '@/contexts/scanner.context';
 import { useToast } from '@/contexts/toast.context';
 
 export default function AddContainer() {
+	const [loading, setLoading] = useState<boolean>(false);
 	const { itemCode } = useContext(ScannerContext);
 	const { pushToast } = useToast();
-	const [isAdded, setIsAdded] = React.useState<boolean | null>(null);
 
 	const addItems = async (code: string) => {
+		setLoading(true);
 		try {
-			setIsAdded(null);
-			const response = await fetch(`/api/pages`, {
+			const response = await fetch(`/api/items`, {
 				method: 'POST',
 				headers: {
 					Accept: 'application/json',
@@ -21,31 +21,26 @@ export default function AddContainer() {
 				body: JSON.stringify({
 					reference: code,
 					container: 'A_RANGER',
+					databaseName: 'Items',
 				}),
 			});
 
 			if (response && response.status === 201) {
-				setIsAdded(true);
 				pushToast({
 					title: 'Reference ajoutée',
-					content: 'La reference ${} est bien ajouté',
+					content: `La reference <${code}> est bien ajouté`,
 					type: 'success',
 				});
 			} else {
-				setIsAdded(false);
-				pushToast({
-					title: 'Erreur',
-					content: "La reference ${} n'a pas été ajouté",
-					type: 'danger',
-				});
+				throw JSON.stringify(await response.json());
 			}
-		} catch (err) {
-			setIsAdded(false);
+		} catch (err: any) {
 			pushToast({
-				title: 'Erreur',
-				content: "La reference ${} n'a pas été ajouté",
+				content: JSON.parse(err).message,
 				type: 'danger',
 			});
+		} finally {
+			setLoading(false);
 		}
 	};
 
@@ -63,7 +58,7 @@ export default function AddContainer() {
 					<input
 						className="p-2 rounded bg-slate-900 w-full text-center border-2 border-slate-400"
 						type="submit"
-						value="Enregister"
+						value={loading ? 'Loading...' : 'Enregister'}
 					/>
 				</form>
 			}

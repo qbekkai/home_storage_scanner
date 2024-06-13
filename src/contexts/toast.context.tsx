@@ -62,7 +62,7 @@ const Toasts = () => {
 		const id = Date.now();
 		const timer = setTimeout(() => {
 			setToasts((v: any) => v.filter((t: any) => t.id !== id));
-		}, (duration ?? 2) * 1000);
+		}, (duration ?? 5) * 1000);
 
 		const toast = { ...props, id, timer };
 		setToasts((v) => [...v, toast]);

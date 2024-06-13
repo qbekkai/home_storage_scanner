@@ -13,7 +13,7 @@ export default function ToggleCard({
 }) {
 	const [classInfoBox, setClassInfoBox] = React.useState<Array<string>>([
 		'h-auto',
-		'max-h-[650px]',
+		'max-h-[450px]',
 		'overflow-hidden',
 	]);
 	const [isOpenBox, setIsOpenedInfoBox] = React.useState<boolean>(false);
