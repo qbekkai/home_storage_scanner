@@ -18,7 +18,8 @@
 			}
 		],
 		"paths": {
-			"@/*": ["./src/*"]
+			"@/*": ["./src/*"],
+			"@/SERVICES/*": ["./src/services/*"]
 		}
 	},
 	"include": [

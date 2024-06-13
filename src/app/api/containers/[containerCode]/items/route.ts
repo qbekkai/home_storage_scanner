@@ -1,17 +1,16 @@
-import NotionService from '@/services/Notion.service';
+import NotionService from '@/SERVICES/Notion.service';
 import { NextResponse, type NextRequest } from 'next/server';
 
-export async function PATCH(request: NextRequest, context: any) {
+export async function GET(request: NextRequest, context: any) {
 	try {
 		const {
-			params: { itemCode: itemCodeToMove },
+			params: { containerCode },
 		} = context;
-		const { newContainer }: any = await request.json();
 
-		const page = NotionService.moveItemToNewContainer({
-			itemCode: itemCodeToMove,
-			newContainerCode: newContainer,
+		const page = await NotionService.findItemsInAContainer({
+			value: containerCode,
 		});
+
 		return NextResponse.json(
 			{ page },
 			{

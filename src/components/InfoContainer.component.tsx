@@ -1,31 +1,49 @@
 'use client';
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import ToggleCard from './ui/ToggleCard.component';
 import ScannerContext from '@/contexts/scanner.context';
 import InputComponent from './ui/Input.component';
+import { useToast } from '@/contexts/toast.context';
 
 export default function InfoContainer() {
 	const { containerCode } = useContext(ScannerContext);
 
+	const { pushToast } = useToast();
+	const [loading, setLoading] = useState<boolean>(false);
 	const [items, setItems] = useState<Array<any>>([]);
 
+	useEffect(() => {
+		if (!containerCode) {
+			setItems([]);
+		}
+	}, [containerCode]);
+
 	const findItems = async (code: string) => {
+		setLoading(true);
+		setItems([]);
 		try {
-			const response = await fetch(
-				`/api/databases?property=Contenant&value=${code}`,
-				{
-					method: 'GET',
-					headers: {
-						Accept: 'application/json',
-					},
+			const response = await fetch(`/api/containers/${code}/items`, {
+				method: 'GET',
+				headers: {
+					Accept: 'application/json',
 				},
-			);
+			});
 
 			if (response) {
-				const resContent = (await response.json()).response;
-				setItems(resContent.results);
+				const resContent = await response.json();
+
+				setItems(resContent.page.results);
 			}
-		} catch (err) {}
+		} catch (err: any) {
+			setLoading(false);
+			pushToast({
+				content: err.toString(),
+				type: 'danger',
+				duration: 60,
+			});
+		} finally {
+			setLoading(false);
+		}
 	};
 
 	return (
@@ -43,7 +61,7 @@ export default function InfoContainer() {
 					<input
 						className="p-2 rounded bg-slate-900 w-full text-center border-2 border-slate-400"
 						type="submit"
-						value="Rechercher"
+						value={loading ? 'Loading...' : 'Rechercher'}
 					/>
 				</form>
 			}
@@ -54,16 +72,17 @@ export default function InfoContainer() {
 					<h2 className="px-5 py-2 text-center w-full">
 						Contenant : {containerCode}
 					</h2>
-					<div className="overflow-hidden">
-						<ul className="px-5 overflow-y-scroll">
-							<li className="py-1 border-b-4 flex justify-between">
-								<span>Titre</span> <span>Ref</span>
-							</li>
+					{/* <div className="pb-3"> */}
+					<ul className="px-5">
+						<li className="py-1 border-b-2 flex justify-between">
+							<span>Titre</span> <span>Ref</span>
+						</li>
+						<div className="h-96 overflow-auto">
 							{items?.map((item: any) => (
 								<>
 									<li
 										key={item.id}
-										className="py-2 border-b flex justify-between"
+										className="py-2 border-t flex justify-between"
 									>
 										{item?.properties?.Nom?.title.length > 0 ? (
 											<span>
@@ -87,8 +106,9 @@ export default function InfoContainer() {
 									</li>
 								</>
 							))}
-						</ul>
-					</div>
+						</div>
+					</ul>
+					{/* </disv> */}
 				</>
 			)}
 		</ToggleCard>
