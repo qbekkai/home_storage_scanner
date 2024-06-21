@@ -1,21 +1,26 @@
 'use client';
-import React, { useEffect } from 'react';
-import type { Metadata } from 'next';
+import { useEffect, useState, ReactNode } from 'react';
+import { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import '../style/globals.css';
 import { ToastContextProvider } from '@/contexts/toast.context';
 
 const inter = Inter({ subsets: ['latin'] });
 
+export const metadata: Metadata = {
+	manifest: '/manifest.json',
+	title: 'HS-Scanner',
+};
+
 export default function RootLayout({
 	children,
 }: Readonly<{
-	children: React.ReactNode;
+	children: ReactNode;
 }>) {
-	const [w, setW] = React.useState<number>();
-	const [h, setH] = React.useState<number>();
+	const [w, setW] = useState<number>();
+	const [h, setH] = useState<number>();
 
-	React.useEffect(() => {
+	useEffect(() => {
 		setW(window.innerWidth);
 		setH(window.innerHeight);
 	}, [setW, setH]);
