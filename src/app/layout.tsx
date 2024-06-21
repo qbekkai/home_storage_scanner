@@ -10,6 +10,7 @@ const inter = Inter({ subsets: ['latin'] });
 export const metadata: Metadata = {
 	manifest: '/manifest.json',
 	title: 'HS-Scanner',
+	themeColor: 'rgb(30 41 59)',
 };
 
 export default function RootLayout({
