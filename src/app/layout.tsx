@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import type { Metadata } from 'next';
+import type { Viewport, Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import '../style/globals.css';
 import HtmlElement from '@/components/HtmlElement.component';
@@ -8,8 +8,12 @@ import { ToastContextProvider } from '@/contexts/toast.context';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
+	icons: '/maskable_icon_x48.png',
 	manifest: '/manifest.json',
 	title: 'HS-Scanner',
+};
+export const viewport: Viewport = {
+	themeColor: '#1E313B',
 };
 
 export default function RootLayout({
