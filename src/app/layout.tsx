@@ -1,8 +1,8 @@
-'use client';
-import { useEffect, useState, ReactNode } from 'react';
-import { Metadata } from 'next';
+import { ReactNode } from 'react';
+import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import '../style/globals.css';
+import HtmlElement from '@/components/HtmlElement.component';
 import { ToastContextProvider } from '@/contexts/toast.context';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -17,19 +17,8 @@ export default function RootLayout({
 }: Readonly<{
 	children: ReactNode;
 }>) {
-	const [w, setW] = useState<number>();
-	const [h, setH] = useState<number>();
-
-	useEffect(() => {
-		setW(window.innerWidth);
-		setH(window.innerHeight);
-	}, [setW, setH]);
-
 	return (
-		<html
-			lang="en"
-			className={`bg-slate-900 text-white w-[${h}px] h-[${w}px] overflow-hidden`}
-		>
+		<HtmlElement>
 			<body className={inter.className + ' w-full h-full relative'}>
 				<ToastContextProvider>
 					<header className="absolute p-2 w-full z-50">
@@ -40,6 +29,6 @@ export default function RootLayout({
 					{children}
 				</ToastContextProvider>
 			</body>
-		</html>
+		</HtmlElement>
 	);
 }
