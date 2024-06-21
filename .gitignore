@@ -133,5 +133,9 @@ dist
 # vercel
 .vercel
 
+# all other ignore list
+sw.*
+workbox-*
+swe-worker-*
 certificates
 
