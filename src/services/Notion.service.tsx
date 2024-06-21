@@ -8,7 +8,7 @@ type NotionRequest = {
 export default class NotionService {
 	private static _initNotion(): typeof Client {
 		return new Client({
-			auth: 'secret_4lEsgshzUvwFtFe8RpP03wPl4fsvXozgdYqaZq4YCbc',
+			auth: process.env.NOTION_SECRET,
 		});
 	}
 
